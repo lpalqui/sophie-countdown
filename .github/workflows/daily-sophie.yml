@@ -1,0 +1,75 @@
+name: Notificacao diaria Sophie
+
+on:
+  schedule:
+    # 12:00 UTC = 09:00 BRT (UTC-3)
+    - cron: '0 12 * * *'
+  workflow_dispatch: # permite disparar manualmente pelo GitHub
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Calcular e enviar
+        env:
+          PHONE: ${{ secrets.WHATSAPP_PHONE }}
+          APIKEY: ${{ secrets.CALLMEBOT_APIKEY }}
+        run: |
+          python3 - <<'PY'
+          import os, urllib.parse, urllib.request, datetime, zoneinfo
+
+          BRT = zoneinfo.ZoneInfo("America/Sao_Paulo")
+          DUE = datetime.datetime(2026, 6, 18, 0, 0, 0, tzinfo=BRT)
+          ANCHOR = datetime.datetime(2026, 5, 15, 0, 0, 0, tzinfo=BRT)
+          ANCHOR_WEEK = 34
+
+          WEEK_INFO = {
+              30: ("um repolho", "cerca de 40 cm e 1,3 kg", "A Sophie ja abre e fecha os olhinhos e o cerebro esta ganhando dobrinhas."),
+              31: ("um coco", "cerca de 41 cm e 1,5 kg", "Os cinco sentidos ja funcionam. Ela reconhece a voz da mamae e do papai."),
+              32: ("uma jaca pequena", "cerca de 42 cm e 1,7 kg", "Esta treinando a respiracao com o liquido amniotico. Pulmoes quase prontos."),
+              33: ("um abacaxi", "cerca de 43 cm e 1,9 kg", "Os ossinhos estao endurecendo, exceto os do cranio. Ela ja sonha."),
+              34: ("um melao cantaloupe", "cerca de 45 cm e 2,1 kg", "Pulmoes continuam amadurecendo e o sistema nervoso central esta quase pronto."),
+              35: ("um melao honeydew", "cerca de 46 cm e 2,4 kg", "Os rins estao completamente formados. Boa parte do desenvolvimento fisico ja foi."),
+              36: ("um mamao papaia", "cerca de 47 cm e 2,6 kg", "Ganhando uns 28 g por dia. Bochechas rechonchudas a caminho."),
+              37: ("uma acelga", "cerca de 48 cm e 2,9 kg", "Considerada termo precoce. Ja pratica agarrar e virar a cabeca em direcao a luz e som."),
+              38: ("um alho-poro grande", "cerca de 49 cm e 3,1 kg", "O verniz que protegia a pele esta quase todo absorvido. Ela esta pronta."),
+              39: ("uma melancia pequena", "cerca de 50 cm e 3,3 kg", "Completinha. Cerebro, pulmoes, digestivo, tudo pronto para o primeiro abraco."),
+              40: ("uma abobora", "cerca de 51 cm e 3,5 kg", "Semana da data prevista. Pode chegar a qualquer momento."),
+              41: ("uma abobora generosa", "cerca de 52 cm e 3,6 kg", "Esticou um pouquinho a estadia. Tudo bem, ela vem na hora dela."),
+              42: ("uma abobora paciente", "cerca de 52 cm e 3,7 kg", "Tirando todo o tempo do mundo. Cada dia a mais e amor acumulando."),
+          }
+
+          now = datetime.datetime.now(BRT)
+          days_left = (DUE - now).days
+          hours_left = ((DUE - now).total_seconds() % 86400) // 3600
+
+          days_since_anchor = (now - ANCHOR).days
+          week = max(0, min(40, ANCHOR_WEEK + days_since_anchor // 7))
+          fruit, size, fact = WEEK_INFO.get(week, WEEK_INFO[40])
+
+          if days_left > 0:
+              line1 = f"Bom dia! Faltam {days_left} dias para a chegada da Sophie."
+          elif days_left == 0:
+              line1 = "Bom dia! Hoje e o dia! A Sophie pode chegar a qualquer momento."
+          else:
+              line1 = f"A Sophie ja chegou ha {abs(days_left)} dias. Bem-vinda, pequena Padawan."
+
+          msg = (
+              f"{line1}\n\n"
+              f"Hoje ela esta na semana {week} e e do tamanho de {fruit} ({size}).\n\n"
+              f"{fact}\n\n"
+              f"Ver o contador: tinyurl.com/sophie-padawan"
+          )
+
+          params = urllib.parse.urlencode({
+              "phone": os.environ["PHONE"],
+              "text": msg,
+              "apikey": os.environ["APIKEY"],
+          })
+          url = f"https://api.callmebot.com/whatsapp.php?{params}"
+          with urllib.request.urlopen(url, timeout=30) as r:
+              body = r.read().decode("utf-8", errors="replace")
+              print(body)
+              if "Message queued" not in body and "Message sent" not in body:
+                  raise SystemExit("Falha ao enviar: " + body)
+          PY
