@@ -16,6 +16,8 @@ jobs:
           LUIS_APIKEY: ${{ secrets.CALLMEBOT_APIKEY }}
           DAYANA_PHONE: ${{ secrets.DAYANA_PHONE }}
           DAYANA_APIKEY: ${{ secrets.DAYANA_APIKEY }}
+          MADRINHA_PHONE: ${{ secrets.MADRINHA_PHONE }}
+          MADRINHA_APIKEY: ${{ secrets.MADRINHA_APIKEY }}
         run: |
           python3 - <<'PY'
           import os, urllib.parse, urllib.request, datetime, zoneinfo
@@ -95,8 +97,9 @@ jobs:
               )
 
           recipients = [
-              ("Luis", os.environ["LUIS_PHONE"], os.environ["LUIS_APIKEY"], "Oi, papai! Bom dia."),
-              ("Dayana", os.environ["DAYANA_PHONE"], os.environ["DAYANA_APIKEY"], "Oi, mamae! Bom dia."),
+              ("Luis",     os.environ["LUIS_PHONE"],     os.environ["LUIS_APIKEY"],     "Oi, papai! Bom dia."),
+              ("Dayana",   os.environ["DAYANA_PHONE"],   os.environ["DAYANA_APIKEY"],   "Oi, mamae! Bom dia."),
+              ("Madrinha", os.environ["MADRINHA_PHONE"], os.environ["MADRINHA_APIKEY"], "Oi, Dinda! Bom dia."),
           ]
 
           failures = []
