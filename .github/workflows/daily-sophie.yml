@@ -64,6 +64,7 @@ jobs:
           params = urllib.parse.urlencode({
               "phone": os.environ["PHONE"],
               "text": msg,
+              "image": "https://lpalqui.github.io/sophie-countdown/sophie.png",
               "apikey": os.environ["APIKEY"],
           })
           url = f"https://api.callmebot.com/whatsapp.php?{params}"
