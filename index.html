@@ -436,11 +436,13 @@
   .thanks-card::before {
     content: "";
     position: absolute;
-    inset: -40% -10% auto -10%;
-    height: 60%;
-    background: radial-gradient(ellipse at 50% 100%, rgba(255, 220, 150, 0.6), transparent 70%);
+    inset: -60% -20% auto -20%;
+    height: 80%;
+    background: radial-gradient(ellipse at 50% 100%, rgba(255, 220, 150, 0.28), transparent 75%);
     pointer-events: none;
+    z-index: 0;
   }
+  .thanks-card > * { position: relative; z-index: 1; }
   .thanks-card .crest {
     font-family: 'Allura', cursive;
     font-size: clamp(2.4rem, 4vw, 3.6rem);
