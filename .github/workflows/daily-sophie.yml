@@ -25,21 +25,47 @@ jobs:
           ANCHOR = datetime.datetime(2026, 5, 15, 0, 0, 0, tzinfo=BRT)
           ANCHOR_WEEK = 34
 
-          # (fruta, cm, kg, fato)
+          # (fruta, cm, kg, fato, dica da semana)
           WEEK_INFO = {
-              30: ("um repolho",           "40 cm", "1,3 kg", "A Sophie ja abre e fecha os olhinhos e o cerebro esta ganhando dobrinhas."),
-              31: ("um coco",              "41 cm", "1,5 kg", "Os cinco sentidos ja funcionam. Ela reconhece a voz da mamae e do papai."),
-              32: ("uma jaca pequena",     "42 cm", "1,7 kg", "Esta treinando a respiracao com o liquido amniotico. Pulmoes quase prontos."),
-              33: ("um abacaxi",           "43 cm", "1,9 kg", "Os ossinhos estao endurecendo, exceto os do cranio. Ela ja sonha."),
-              34: ("um melao cantaloupe",  "45 cm", "2,1 kg", "Pulmoes continuam amadurecendo e o sistema nervoso central esta quase pronto."),
-              35: ("um melao honeydew",    "46 cm", "2,4 kg", "Os rins estao completamente formados. Boa parte do desenvolvimento fisico ja foi."),
-              36: ("um mamao papaia",      "47 cm", "2,6 kg", "Ganhando uns 28 g por dia. Bochechas rechonchudas a caminho."),
-              37: ("uma acelga",           "48 cm", "2,9 kg", "Considerada termo precoce. Ja pratica agarrar e virar a cabeca em direcao a luz e som."),
-              38: ("um alho-poro grande",  "49 cm", "3,1 kg", "O verniz que protegia a pele esta quase todo absorvido. Ela esta pronta."),
-              39: ("uma melancia pequena", "50 cm", "3,3 kg", "Completinha. Cerebro, pulmoes, digestivo, tudo pronto para o primeiro abraco."),
-              40: ("uma abobora",          "51 cm", "3,5 kg", "Semana da data prevista. Pode chegar a qualquer momento."),
-              41: ("uma abobora generosa", "52 cm", "3,6 kg", "Esticou um pouquinho a estadia. Tudo bem, ela vem na hora dela."),
-              42: ("uma abobora paciente", "52 cm", "3,7 kg", "Tirando todo o tempo do mundo. Cada dia a mais e amor acumulando."),
+              30: ("um repolho",           "40 cm", "1,3 kg",
+                   "A Sophie ja abre e fecha os olhinhos e o cerebro esta ganhando dobrinhas.",
+                   "Comecem a montar a mala da maternidade aos poucos. Anotem os movimentos dela ao longo do dia, devem continuar regulares."),
+              31: ("um coco",              "41 cm", "1,5 kg",
+                   "Os cinco sentidos ja funcionam. Ela reconhece a voz da mamae e do papai.",
+                   "Inchaco nos pes e maos e comum. Elevem as pernas no fim do dia e bebam bastante agua. Aproveitem pra conversar com ela, ela escuta."),
+              32: ("uma jaca pequena",     "42 cm", "1,7 kg",
+                   "Esta treinando a respiracao com o liquido amniotico. Pulmoes quase prontos.",
+                   "Hora de conversar com o obstetra sobre o plano de parto. Comecem a montar o enxoval basico."),
+              33: ("um abacaxi",           "43 cm", "1,9 kg",
+                   "Os ossinhos estao endurecendo, exceto os do cranio. Ela ja sonha.",
+                   "Caimbras a noite ficam mais frequentes, alongamento e magnesio ajudam. Visitem a maternidade pra conhecer o caminho."),
+              34: ("um melao cantaloupe",  "45 cm", "2,1 kg",
+                   "Pulmoes continuam amadurecendo e o sistema nervoso central esta quase pronto.",
+                   "Mala da maternidade ja deve estar quase pronta. Decorem o caminho mais rapido pro hospital. Fiquem atentos a pressao arterial."),
+              35: ("um melao honeydew",    "46 cm", "2,4 kg",
+                   "Os rins estao completamente formados. Boa parte do desenvolvimento fisico ja foi.",
+                   "Contracoes de Braxton Hicks (treinamento) podem aumentar. Se forem regulares e dolorosas, ligar pro obstetra. Descansem mais."),
+              36: ("um mamao papaia",      "47 cm", "2,6 kg",
+                   "Ganhando uns 28 g por dia. Bochechas rechonchudas a caminho.",
+                   "Consultas passam a ser semanais. Conferir posicao do bebe com o medico. Finalizem documentos do recem-nascido (certidao, plano)."),
+              37: ("uma acelga",           "48 cm", "2,9 kg",
+                   "Considerada termo precoce. Ja pratica agarrar e virar a cabeca em direcao a luz e som.",
+                   "Bebe ja pode nascer a qualquer momento e isso e seguro. Tenham a mala perto. Evitem viajar pra longe agora."),
+              38: ("um alho-poro grande",  "49 cm", "3,1 kg",
+                   "O verniz que protegia a pele esta quase todo absorvido. Ela esta pronta.",
+                   "Sinais de trabalho de parto: contracoes regulares (a cada 5 min), perda do tampao mucoso, ruptura da bolsa. Qualquer um, ligar pro obstetra."),
+              39: ("uma melancia pequena", "50 cm", "3,3 kg",
+                   "Completinha. Cerebro, pulmoes, digestivo, tudo pronto para o primeiro abraco.",
+                   "Caminhadas leves ajudam o bebe a encaixar. Mantenham celular sempre carregado e contatos do obstetra a mao."),
+              40: ("uma abobora",          "51 cm", "3,5 kg",
+                   "Semana da data prevista. Pode chegar a qualquer momento.",
+                   "Acompanhem bem os movimentos da Sophie hoje, devem estar presentes como sempre. Qualquer reducao, ligar pro obstetra imediatamente."),
+              41: ("uma abobora generosa", "52 cm", "3,6 kg",
+                   "Esticou um pouquinho a estadia. Tudo bem, ela vem na hora dela.",
+                   "Obstetra vai avaliar inducao do parto. Continuem monitorando movimentos. Repouso e calma, esta tudo certo."),
+              42: ("uma abobora paciente", "52 cm", "3,7 kg",
+                   "Tirando todo o tempo do mundo. Cada dia a mais e amor acumulando.",
+                   "Acompanhamento medico proximo e essencial agora. Confiem no processo, ela escolhe a hora dela."),
           }
 
           now = datetime.datetime.now(BRT)
@@ -48,30 +74,34 @@ jobs:
 
           days_since_anchor = (now - ANCHOR).days
           week = max(0, min(40, ANCHOR_WEEK + days_since_anchor // 7))
-          fruit, cm, kg, fact = WEEK_INFO.get(week, WEEK_INFO[40])
+          fruit, cm, kg, fact, dica = WEEK_INFO.get(week, WEEK_INFO[40])
 
           if days_left > 0:
-              line1 = f"Bom dia! Faltam {days_left} dias para a chegada da Sophie."
+              countdown_line = f"Faltam {days_left} dias para a chegada da Sophie."
           elif days_left == 0:
-              line1 = "Bom dia! Hoje e o dia! A Sophie pode chegar a qualquer momento."
+              countdown_line = "Hoje e o dia! A Sophie pode chegar a qualquer momento."
           else:
-              line1 = f"A Sophie ja chegou ha {abs(days_left)} dias. Bem-vinda, pequena Padawan."
+              countdown_line = f"A Sophie ja chegou ha {abs(days_left)} dias. Bem-vinda, pequena Padawan."
 
-          msg = (
-              f"{line1}\n\n"
-              f"Hoje ela esta na semana {week} e e do tamanho de {fruit}\n"
-              f"Esta com cerca de *{cm}* e *{kg}*.\n\n"
-              f"{fact}\n\n"
-              f"Ver o contador: https://lpalqui.github.io/sophie-countdown/"
-          )
+          def build_msg(saudacao):
+              return (
+                  f"{saudacao}\n\n"
+                  f"{countdown_line}\n\n"
+                  f"Hoje ela esta na semana {week} e e do tamanho de {fruit}\n"
+                  f"Esta com cerca de *{cm}* e *{kg}*.\n\n"
+                  f"{fact}\n\n"
+                  f"*Dica desta semana:* {dica}\n\n"
+                  f"Ver o contador: https://lpalqui.github.io/sophie-countdown/"
+              )
 
           recipients = [
-              ("Luis", os.environ["LUIS_PHONE"], os.environ["LUIS_APIKEY"]),
-              ("Dayana", os.environ["DAYANA_PHONE"], os.environ["DAYANA_APIKEY"]),
+              ("Luis", os.environ["LUIS_PHONE"], os.environ["LUIS_APIKEY"], "Oi, papai! Bom dia."),
+              ("Dayana", os.environ["DAYANA_PHONE"], os.environ["DAYANA_APIKEY"], "Oi, mamae! Bom dia."),
           ]
 
           failures = []
-          for name, phone, apikey in recipients:
+          for name, phone, apikey, saudacao in recipients:
+              msg = build_msg(saudacao)
               params = urllib.parse.urlencode({"phone": phone, "text": msg, "apikey": apikey})
               url = f"https://api.callmebot.com/whatsapp.php?{params}"
               try:
