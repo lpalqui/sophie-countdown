@@ -12,8 +12,10 @@ jobs:
     steps:
       - name: Calcular e enviar
         env:
-          PHONE: ${{ secrets.WHATSAPP_PHONE }}
-          APIKEY: ${{ secrets.CALLMEBOT_APIKEY }}
+          LUIS_PHONE: ${{ secrets.WHATSAPP_PHONE }}
+          LUIS_APIKEY: ${{ secrets.CALLMEBOT_APIKEY }}
+          DAYANA_PHONE: ${{ secrets.DAYANA_PHONE }}
+          DAYANA_APIKEY: ${{ secrets.DAYANA_APIKEY }}
         run: |
           python3 - <<'PY'
           import os, urllib.parse, urllib.request, datetime, zoneinfo
@@ -61,15 +63,24 @@ jobs:
               f"Ver o contador: tinyurl.com/sophie-padawan"
           )
 
-          params = urllib.parse.urlencode({
-              "phone": os.environ["PHONE"],
-              "text": msg,
-              "apikey": os.environ["APIKEY"],
-          })
-          url = f"https://api.callmebot.com/whatsapp.php?{params}"
-          with urllib.request.urlopen(url, timeout=30) as r:
-              body = r.read().decode("utf-8", errors="replace")
-              print(body)
-              if "Message queued" not in body and "Message sent" not in body:
-                  raise SystemExit("Falha ao enviar: " + body)
+          recipients = [
+              ("Luis", os.environ["LUIS_PHONE"], os.environ["LUIS_APIKEY"]),
+              ("Dayana", os.environ["DAYANA_PHONE"], os.environ["DAYANA_APIKEY"]),
+          ]
+
+          failures = []
+          for name, phone, apikey in recipients:
+              params = urllib.parse.urlencode({"phone": phone, "text": msg, "apikey": apikey})
+              url = f"https://api.callmebot.com/whatsapp.php?{params}"
+              try:
+                  with urllib.request.urlopen(url, timeout=30) as r:
+                      body = r.read().decode("utf-8", errors="replace")
+                      print(f"[{name}] {body}")
+                      if "Message queued" not in body and "Message sent" not in body:
+                          failures.append(f"{name}: {body}")
+              except Exception as e:
+                  failures.append(f"{name}: {e}")
+
+          if failures:
+              raise SystemExit("Falhas: " + " | ".join(failures))
           PY
