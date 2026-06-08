@@ -23,7 +23,7 @@ jobs:
           import os, urllib.parse, urllib.request, datetime, zoneinfo
 
           BRT = zoneinfo.ZoneInfo("America/Sao_Paulo")
-          DUE = datetime.datetime(2026, 6, 18, 0, 0, 0, tzinfo=BRT)
+          DUE = datetime.datetime(2026, 6, 18, 20, 0, 0, tzinfo=BRT)
           ANCHOR = datetime.datetime(2026, 5, 15, 0, 0, 0, tzinfo=BRT)
           ANCHOR_WEEK = 34
 
