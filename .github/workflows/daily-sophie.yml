@@ -88,7 +88,8 @@ jobs:
           def build_msg(saudacao):
               return (
                   f"{saudacao}\n\n"
-                  f"{countdown_line}\n\n"
+                  f"{countdown_line}\n"
+                  f"Previsao: *{DUE:%d/%m}* as *{DUE.hour}h*.\n\n"
                   f"Hoje ela esta na semana {week} e e do tamanho de {fruit}\n"
                   f"Esta com cerca de *{cm}* e *{kg}*.\n\n"
                   f"{fact}\n\n"
