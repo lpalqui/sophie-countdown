@@ -93,7 +93,7 @@ jobs:
                   f"Esta com cerca de *{cm}* e *{kg}*.\n\n"
                   f"{fact}\n\n"
                   f"*Dica desta semana:* {dica}\n\n"
-                  f"Ver o contador: https://lpalqui.github.io/sophie-countdown/"
+                  f"Ver o contador: https://lpalqui.github.io/sophiemarques/"
               )
 
           recipients = [
