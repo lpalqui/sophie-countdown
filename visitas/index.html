@@ -12,14 +12,15 @@
 
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: 'Lora', Georgia, serif;
     color: #4a3826;
     background-color: #f7efe1;
-    line-height: 1.4;
+    line-height: 1.6;
     overflow-x: hidden;
     position: relative;
-    min-height: 100dvh;
+    min-height: 100vh;
   }
 
   body::before {
@@ -33,124 +34,364 @@
   }
 
   .cloud-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .cloud { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5; animation: drift 70s ease-in-out infinite alternate; }
-  .cloud.c1 { width: 460px; height: 300px; top: 2%;  left: -10%; background: #fff3dc; }
-  .cloud.c2 { width: 400px; height: 250px; top: 45%; right: -8%; background: #ffe4b8; animation-delay: -25s; }
-  .cloud.c3 { width: 520px; height: 340px; top: 75%; left:  8%;  background: #fbe6c2; animation-delay: -45s; }
+  .cloud {
+    position: absolute; border-radius: 50%; filter: blur(60px);
+    opacity: 0.5; animation: drift 60s ease-in-out infinite alternate;
+  }
+  .cloud.c1 { width: 520px; height: 320px; top: 4%;  left: -10%; background: #fff3dc; animation-duration: 70s; }
+  .cloud.c2 { width: 420px; height: 260px; top: 38%; right: -8%; background: #ffe4b8; animation-duration: 85s; animation-delay: -20s; }
+  .cloud.c3 { width: 600px; height: 380px; top: 72%; left:  10%; background: #fbe6c2; animation-duration: 95s; animation-delay: -40s; }
+  .cloud.c4 { width: 380px; height: 240px; top: 14%; right: 30%; background: #fff8e6; animation-duration: 75s; animation-delay: -10s; }
   @keyframes drift {
     0%   { transform: translate3d(0, 0, 0) scale(1); }
-    100% { transform: translate3d(-25px, 22px, 0) scale(1.04); }
+    50%  { transform: translate3d(40px, -20px, 0) scale(1.05); }
+    100% { transform: translate3d(-30px, 25px, 0) scale(0.98); }
   }
 
   .stars { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
-  .star { position: absolute; width: 3px; height: 3px; background: #c8973a; border-radius: 50%;
-    box-shadow: 0 0 7px #e8b94d; animation: twinkle 4s ease-in-out infinite; opacity: 0.7; }
-  .star.tiny { width: 2px; height: 2px; }
+  .star {
+    position: absolute; width: 4px; height: 4px; background: #c8973a;
+    border-radius: 50%; box-shadow: 0 0 8px #e8b94d, 0 0 14px #e8b94d66;
+    animation: twinkle 4s ease-in-out infinite; opacity: 0.7;
+  }
+  .star.small { width: 3px; height: 3px; }
+  .star.tiny  { width: 2px; height: 2px; box-shadow: 0 0 6px #e8b94d; }
   @keyframes twinkle {
     0%, 100% { opacity: 0.25; transform: scale(0.85); }
     50%      { opacity: 0.95; transform: scale(1.15); }
   }
 
-  h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; color: #5a3f1f; }
+  h1, h2, h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500; color: #5a3f1f; letter-spacing: 0.5px;
+  }
 
-  /* ======== POSTER: uma tela só, sem rolagem ======== */
-  .poster {
+  .page {
     position: relative;
     z-index: 3;
-    min-height: 100dvh;
-    max-width: 720px;
+    max-width: 860px;
     margin: 0 auto;
-    padding: clamp(10px, 2.4vh, 26px) clamp(14px, 4vw, 30px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: clamp(6px, 1.6vh, 18px);
+    padding: 48px 24px 60px;
   }
 
-  /* Cabeçalho */
-  .head { display: flex; align-items: center; gap: clamp(12px, 3vw, 20px); }
-  .head .sophie {
-    width: clamp(68px, 17vw, 120px);
-    height: auto;
-    flex: 0 0 auto;
-    filter: drop-shadow(0 8px 16px rgba(120, 80, 30, 0.18));
-    animation: float 7s ease-in-out infinite;
+  /* ======== HEADER ======== */
+  .top {
+    text-align: center;
+    margin-bottom: 14px;
   }
-  @keyframes float { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-5px);} }
-  .head .sophie-fallback {
-    width: clamp(68px, 17vw, 120px); aspect-ratio: 1; flex: 0 0 auto; border-radius: 50%;
-    background: radial-gradient(circle at 50% 45%, #fff5dd, #d8b677);
-    display: flex; align-items: center; justify-content: center; text-align: center;
-    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.7rem; color: #6b4a23; padding: 6px;
-  }
-  .head .titles { min-width: 0; }
   .kicker {
-    font-family: 'Cormorant Garamond', serif; text-transform: uppercase;
-    letter-spacing: 3px; font-size: clamp(0.72rem, 2.4vw, 0.92rem); color: #9a7a4a;
+    font-family: 'Cormorant Garamond', serif;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 0.82rem;
+    color: #9a7a4a;
+    margin-bottom: 10px;
+  }
+  .top h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 500;
+    color: #6b4a23;
+    line-height: 1.1;
   }
   .sophie-name {
-    font-family: 'Allura', cursive; color: #b8862e; line-height: 0.9;
-    font-size: clamp(2.6rem, 11vw, 4.2rem);
-    text-shadow: 0 2px 0 rgba(255,255,255,0.5), 0 6px 18px rgba(150,100,30,0.18);
+    font-family: 'Allura', cursive;
+    font-size: clamp(3.2rem, 9vw, 5rem);
+    color: #b8862e;
+    line-height: 0.9;
+    margin-top: 2px;
+    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5), 0 6px 20px rgba(150, 100, 30, 0.18);
   }
-  .tagline {
-    font-family: 'Cormorant Garamond', serif; font-style: italic;
-    font-size: clamp(0.95rem, 2.8vw, 1.25rem); color: #7a5828; margin-top: 1px;
+  .top .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    color: #7a5828;
+    margin-top: 8px;
+  }
+  .sophie-img {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    display: block;
+    margin: 18px auto 0;
+    filter: drop-shadow(0 14px 28px rgba(120, 80, 30, 0.18));
+    animation: sophie-float 7s ease-in-out infinite;
+  }
+  @keyframes sophie-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+  .sophie-placeholder {
+    width: 220px; height: 220px; margin: 18px auto 0;
+    background: radial-gradient(circle at 50% 45%, #fff5dd 0%, #f1dbab 65%, #d8b677 100%);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #8a6a3a; font-family: 'Cormorant Garamond', serif;
+    font-style: italic; text-align: center; padding: 24px;
   }
 
-  /* Bloco de informações (Quando / Onde) */
-  .info {
+  /* ======== CARDS ======== */
+  .card {
     background: rgba(255, 247, 230, 0.7);
     border: 1px solid #e9d4a3;
+    border-radius: 22px;
+    padding: 26px 30px;
+    box-shadow: 0 6px 22px rgba(150, 100, 40, 0.09);
+    margin-top: 22px;
+  }
+  .card > h2 {
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    text-align: center;
+    color: #6b4a23;
+    font-weight: 500;
+  }
+  .card > h2 .ico { font-style: normal; margin-right: 6px; }
+  .card .lead {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 1.7vw, 1.3rem);
+    color: #5a3f1f;
+    text-align: center;
+    line-height: 1.5;
+    max-width: 620px;
+    margin: 10px auto 0;
+  }
+
+  .section-sub {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #8a6a3a;
+    font-size: 1.05rem;
+    margin-top: 6px;
+  }
+
+  /* ======== QUANDO: dias ======== */
+  .days {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .day-card {
+    background: linear-gradient(180deg, #fdf6e6 0%, #f6e7c8 100%);
+    border: 1px solid #e3c98e;
     border-radius: 16px;
-    padding: clamp(9px, 1.7vh, 16px) clamp(14px, 3.5vw, 20px);
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: clamp(3px, 0.9vh, 8px) clamp(12px, 3vw, 16px);
-    align-items: baseline;
-  }
-  .info dt {
-    font-family: 'Cormorant Garamond', serif; text-transform: uppercase; letter-spacing: 2px;
-    font-size: clamp(0.66rem, 2.1vw, 0.8rem); color: #a87420; font-weight: 600; padding-top: 2px;
-  }
-  .info dd { font-size: clamp(0.86rem, 2.6vw, 1.04rem); color: #4a3826; line-height: 1.35; }
-  .info dd strong { color: #6b4a23; font-weight: 600; }
-  .info dd .muted { color: #8a6a3a; font-style: italic; }
-  .info a { color: #a87420; text-decoration: none; font-weight: 600; }
-
-  /* Combinados em grade compacta */
-  .combinados-title {
+    padding: 18px 10px;
     text-align: center;
-    font-family: 'Cormorant Garamond', serif; text-transform: uppercase;
-    letter-spacing: 3px; font-size: clamp(0.72rem, 2.3vw, 0.9rem); color: #9a7a4a;
-    margin-bottom: -2px;
+    box-shadow: 0 4px 14px rgba(120, 80, 30, 0.10), inset 0 1px 0 rgba(255,255,255,0.7);
   }
-  .combinados {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(5px, 1vh, 10px) clamp(12px, 3vw, 22px);
+  .day-name {
+    font-family: 'Cormorant Garamond', serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.82rem;
+    color: #8a6a3a;
   }
-  .ci { display: flex; align-items: flex-start; gap: 8px; line-height: 1.25; }
-  .ci .e { flex: 0 0 auto; font-size: clamp(1rem, 3.4vw, 1.25rem); line-height: 1.1; }
-  .ci .t { font-size: clamp(0.78rem, 2.5vw, 0.96rem); color: #4a3826; }
-  .ci .t b { color: #6b4a23; font-weight: 600; }
-
-  /* Assinatura */
-  .sign {
+  .day-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 3.2rem);
+    color: #a87420;
+    line-height: 1;
+    margin: 4px 0 2px;
+  }
+  .day-month {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #7a5828;
+    font-size: 1rem;
+  }
+  .note {
     text-align: center;
-    font-family: 'Allura', cursive; color: #b8862e;
-    font-size: clamp(1.5rem, 5vw, 2.1rem); line-height: 1; margin-top: 2px;
-  }
-  .sign small {
-    display: block; font-family: 'Cormorant Garamond', serif; font-style: italic;
-    font-size: clamp(0.8rem, 2.4vw, 0.98rem); color: #7a5828; margin-top: 4px; letter-spacing: 0.5px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #7a5828;
+    margin-top: 18px;
+    line-height: 1.5;
   }
 
-  @media (min-width: 560px) {
-    .combinados { grid-template-columns: 1fr 1fr; }
+  /* ======== ONDE: destaque ======== */
+  .place {
+    text-align: center;
+    margin-top: 16px;
   }
+  .place .hospital {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    font-weight: 600;
+    color: #6b4a23;
+  }
+  .place .address {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #7a5828;
+    font-size: 1.05rem;
+    margin-top: 4px;
+  }
+  .highlight {
+    margin: 20px auto 0;
+    max-width: 460px;
+    background: linear-gradient(180deg, #fff9ec 0%, #f7e9c8 100%);
+    border: 1px solid #e3c98e;
+    border-radius: 18px;
+    padding: 18px 22px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+  }
+  .highlight .h-label {
+    font-family: 'Cormorant Garamond', serif;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-size: 0.78rem;
+    color: #9a7a4a;
+  }
+  .highlight .h-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    color: #a87420;
+    margin-top: 4px;
+    line-height: 1.1;
+  }
+  .highlight .h-sub {
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    color: #7a5828;
+    font-size: 0.98rem;
+    margin-top: 6px;
+  }
+  .contact {
+    margin-top: 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: #5a3f1f;
+    text-align: center;
+    line-height: 1.6;
+  }
+  .contact a { color: #a87420; text-decoration: none; font-weight: 600; }
+  .contact a:hover { text-decoration: underline; }
+
+  .parking {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    text-align: left;
+    max-width: 540px;
+    margin: 18px auto 0;
+    background: rgba(253, 246, 230, 0.6);
+    border: 1px dashed #e3c98e;
+    border-radius: 14px;
+    padding: 14px 18px;
+  }
+  .parking .p-ico { font-size: 1.5rem; line-height: 1.2; flex: 0 0 auto; }
+  .parking .p-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #6b4a23;
+  }
+  .parking .p-text { font-size: 0.96rem; color: #5a3f1f; line-height: 1.5; margin-top: 2px; }
+
+  /* ======== LISTAS DE COMBINADOS ======== */
+  .rules { margin-top: 20px; display: grid; gap: 14px; }
+  .rule {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .rule .badge {
+    flex: 0 0 auto;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 40%, #fdf2d6 0%, #eccf93 75%, #d8b677 100%);
+    border: 1px solid #e3c98e;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 3px 8px rgba(150,100,40,0.14);
+  }
+  .rule .r-body { flex: 1 1 auto; padding-top: 1px; }
+  .rule .r-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.18rem;
+    color: #6b4a23;
+    line-height: 1.25;
+  }
+  .rule .r-text {
+    font-size: 0.98rem;
+    color: #5a3f1f;
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+
+  /* ======== FECHAMENTO ======== */
+  .closing {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .closing p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+    color: #5a3f1f;
+    line-height: 1.55;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .closing .signature {
+    font-family: 'Allura', cursive;
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    color: #b8862e;
+    margin-top: 12px;
+    line-height: 1;
+  }
+
+  footer {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #9a7a4a;
+    padding-top: 34px;
+  }
+
+  /* ======== MOBILE ======== */
+  @media (max-width: 620px) {
+    .page { padding: 26px 16px 38px; }
+
+    /* Cabeçalho mais enxuto */
+    .kicker { letter-spacing: 3px; font-size: 0.74rem; margin-bottom: 8px; }
+    .top h1 { font-size: 1.9rem; }
+    .sophie-name { font-size: 3.2rem; }
+    .top .tagline { font-size: 1.05rem; margin-top: 6px; }
+    .sophie-img { max-width: 210px; margin-top: 12px; }
+    .sophie-placeholder { width: 180px; height: 180px; }
+
+    /* Cards */
+    .card { padding: 20px 18px; border-radius: 18px; margin-top: 18px; }
+    .card > h2 { font-size: 1.45rem; }
+    .card .lead { font-size: 1.08rem; }
+
+    /* Quando */
+    .days { gap: 8px; margin-top: 16px; }
+    .day-card { padding: 14px 4px; border-radius: 13px; }
+    .day-num { font-size: 2.5rem; }
+    .note { font-size: 1rem; }
+
+    /* Onde */
+    .parking { padding: 13px 15px; }
+
+    /* Combinados */
+    .rules { gap: 13px; }
+    .rule { gap: 13px; }
+    .rule .badge { width: 42px; height: 42px; font-size: 1.25rem; }
+    .rule .r-title { font-size: 1.1rem; }
+    .rule .r-text { font-size: 0.95rem; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .cloud, .star, .head .sophie { animation: none !important; }
+    .cloud, .star, .sophie-img { animation: none !important; }
   }
 </style>
 </head>
@@ -160,72 +401,188 @@
   <div class="cloud c1"></div>
   <div class="cloud c2"></div>
   <div class="cloud c3"></div>
+  <div class="cloud c4"></div>
 </div>
+
 <div class="stars" id="stars"></div>
 
-<main class="poster">
+<div class="page">
 
-  <!-- Cabeçalho com a Sophie Padawan -->
-  <header class="head">
-    <img class="sophie" src="sophie.png" alt="Sophie, nossa pequena Padawan"
-         onerror="this.outerHTML='<div class=&quot;sophie-fallback&quot;>Sophie<br>(sophie.png)</div>';">
-    <div class="titles">
-      <p class="kicker">Cartilha de Visitas</p>
-      <div class="sophie-name">Sophie</div>
-      <p class="tagline">um guia pra conhecer a nossa pequena Padawan</p>
-    </div>
+  <!-- ============ HEADER ============ -->
+  <header class="top">
+    <p class="kicker">Maternidade São Luiz Star</p>
+    <h1>Cartilha de Visitas</h1>
+    <div class="sophie-name">Sophie</div>
+    <p class="tagline">um guia carinhoso para conhecer a nossa pequena Padawan</p>
+    <img class="sophie-img" src="sophie.png" alt="Sophie, nossa pequena Padawan"
+         onerror="this.outerHTML='<div class=&quot;sophie-placeholder&quot;>aqui vai a Sophie<br>(sophie.png)</div>';">
   </header>
 
-  <!-- Quando e Onde -->
-  <dl class="info">
-    <dt>Quando</dt>
-    <dd><strong>Sexta 19, Sábado 20 e Domingo 21 de junho</strong>, das <strong>9h às 22h</strong>. <span class="muted">Só neste fim de semana; combinem o horário antes.</span></dd>
+  <!-- ============ INTRO ============ -->
+  <section class="card">
+    <p class="lead">A Sophie chega na quinta, 18 de junho, às 20h. Pra que esse comecinho seja tranquilo pra ela e pra mamãe, preparamos esse guia rápido com tudo que vocês precisam saber pra vir nos visitar. Ler com carinho já é o primeiro gesto de cuidado com ela.</p>
+  </section>
 
-    <dt>Onde</dt>
-    <dd>
-      <strong>Maternidade São Luiz Star</strong><br>
-      R. Helena, 29 - Vila Olímpia, São Paulo - SP, 04552-050<br>
-      <span class="muted">Estacionamento Estapar (pago) no local.</span> Central: <a href="tel:+551121211477">(11) 2121-1477</a>
-    </dd>
-  </dl>
+  <!-- ============ QUANDO ============ -->
+  <section class="card">
+    <h2><span class="ico">🗓️</span>Quando vir</h2>
+    <p class="section-sub">As visitas estão liberadas só neste fim de semana</p>
+    <div class="days">
+      <div class="day-card">
+        <div class="day-name">Sexta</div>
+        <div class="day-num">19</div>
+        <div class="day-month">junho</div>
+      </div>
+      <div class="day-card">
+        <div class="day-name">Sábado</div>
+        <div class="day-num">20</div>
+        <div class="day-month">junho</div>
+      </div>
+      <div class="day-card">
+        <div class="day-name">Domingo</div>
+        <div class="day-num">21</div>
+        <div class="day-month">junho</div>
+      </div>
+    </div>
+    <p class="note">Na quinta (dia do nascimento) e fora desses três dias, a mamãe e a Sophie ainda estarão se recuperando e se conhecendo. Guardem o abraço pra sexta, sábado ou domingo.</p>
+  </section>
 
-  <!-- Combinados -->
-  <p class="combinados-title">Combinados com carinho</p>
-  <div class="combinados">
-    <div class="ci"><span class="e">🤧</span><span class="t"><b>Doente?</b> Fica pra próxima (gripe, febre, herpes)</span></div>
-    <div class="ci"><span class="e">📲</span><span class="t"><b>Avise antes</b> de vir</span></div>
-    <div class="ci"><span class="e">🧼</span><span class="t"><b>Mãos limpas</b> e álcool em gel no colo</span></div>
-    <div class="ci"><span class="e">⏳</span><span class="t"><b>Visita curta</b>, poucas pessoas por vez</span></div>
-    <div class="ci"><span class="e">😘</span><span class="t"><b>Beijinho só de longe</b> (nada de beijar a Sophie)</span></div>
-    <div class="ci"><span class="e">🤱</span><span class="t"><b>Respeite</b> a mamada e o soninho</span></div>
-    <div class="ci"><span class="e">💉</span><span class="t"><b>Vacinas em dia</b> (dTpa e gripe)</span></div>
-    <div class="ci"><span class="e">📸</span><span class="t"><b>Fotos</b> só com a permissão dos papais</span></div>
-    <div class="ci"><span class="e">🌬️</span><span class="t"><b>Sem perfume forte</b> nem cheiro de cigarro</span></div>
-    <div class="ci"><span class="e">🧒</span><span class="t"><b>Crianças</b> pequenas com atenção redobrada</span></div>
-  </div>
+  <!-- ============ ONDE E QUE HORAS ============ -->
+  <section class="card">
+    <h2><span class="ico">📍</span>Onde e que horas</h2>
+    <div class="place">
+      <p class="hospital">Hospital e Maternidade São Luiz Star</p>
+      <p class="address">R. Helena, 29 - Vila Olímpia, São Paulo - SP, 04552-050</p>
+      <div class="highlight">
+        <div class="h-label">Horário de visita</div>
+        <div class="h-value">9h às 22h</div>
+        <div class="h-sub">Dentro dessa janela, combinem antes o melhor momento com a gente. Avisamos o número do quarto no dia.</div>
+      </div>
+      <p class="contact">
+        Central da maternidade: <a href="tel:+551121211477">(11) 2121-1477</a> (7h às 21h)<br>
+        Na chegada, avisem na recepção que vêm visitar a <strong>Dayana</strong> e a <strong>Sophie</strong>.
+      </p>
+      <div class="parking">
+        <span class="p-ico">🚗</span>
+        <div class="p-body">
+          <div class="p-title">Estacionamento</div>
+          <div class="p-text">O hospital tem estacionamento Estapar no local, com custo (rotativo). Quem preferir, dá pra vir de aplicativo ou táxi, que param na porta.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Assinatura -->
-  <div class="sign">
-    Dayana, Luis e Laura
-    <small>obrigado por cuidar da nossa pequena Padawan</small>
-  </div>
+  <!-- ============ COMBINADOS DE SAÚDE ============ -->
+  <section class="card">
+    <h2><span class="ico">💛</span>Combinados de saúde da Sophie</h2>
+    <p class="section-sub">Recém-nascido ainda não tem defesas prontas, então alguns cuidados fazem toda a diferença</p>
+    <div class="rules">
+      <div class="rule">
+        <div class="badge">🤧</div>
+        <div class="r-body">
+          <div class="r-title">Sinal de gripe, resfriado, febre ou herpes labial? Fica pra próxima</div>
+          <div class="r-text">Mesmo que seja só um resfriadinho, é mais seguro adiar. A Sophie agradece e vocês não perdem nada, ela vai estar aqui esperando.</div>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="badge">🧼</div>
+        <div class="r-body">
+          <div class="r-title">Mãos lavadas e álcool em gel antes de pegar no colo</div>
+          <div class="r-text">É o primeiro carinho de verdade. Lavem bem as mãos e passem álcool em gel sempre antes de tocar nela.</div>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="badge">😘</div>
+        <div class="r-body">
+          <div class="r-title">Beijinhos, só de longe</div>
+          <div class="r-text">Nada de beijar o rostinho ou as mãozinhas da Sophie. Por mais difícil que seja resistir, beijo em recém-nascido pode transmitir vírus sérios.</div>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="badge">💉</div>
+        <div class="r-body">
+          <div class="r-title">Vacinas em dia é o presente mais lindo</div>
+          <div class="r-text">Se puderem, mantenham a vacina da gripe e a tríplice (dTpa, contra coqueluche) em dia. É proteção que abraça a Sophie sem nem encostar nela.</div>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="badge">🌬️</div>
+        <div class="r-body">
+          <div class="r-title">Sem perfume forte e sem cheiro de cigarro</div>
+          <div class="r-text">O olfato dela está descobrindo o mundo e ainda vai aprender o cheiro da mamãe. Perfume marcante e fumaça na roupa incomodam bastante.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</main>
+  <!-- ============ COMBINADOS DE CONVIVÊNCIA ============ -->
+  <section class="card">
+    <h2><span class="ico">🤍</span>Combinados de convivência</h2>
+    <div class="rules">
+      <div class="rule">
+        <div class="badge">📲</div>
+        <div class="r-body">
+          <div class="r-title">Avise antes de vir</div>
+          <div class="r-text">Mandem uma mensagem combinando o melhor horário. Assim ninguém chega na hora da amamentação ou de um exame.</div>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="badge">⏳</div>
+        <div class="r-body">
+          <div class="r-title">Visitas curtinhas e poucas pessoas por vez</div>
+          <div class="r-text">A mamãe está se recuperando e a Sophie cansa rápido. Uma visita breve e tranquila vale muito mais que uma longa.</div>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="badge">🤱</div>
+        <div class="r-body">
+          <div class="r-title">Respeitem os momentos de mamar e dormir</div>
+          <div class="r-text">Se a Sophie estiver no peito ou no soninho, é só esperar com calma. Esses momentos são sagrados pra ela.</div>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="badge">📸</div>
+        <div class="r-body">
+          <div class="r-title">Fotos, só com a permissão dos papais</div>
+          <div class="r-text">Vamos adorar registrar tudo juntos. Só pedimos pra não publicar a Sophie nas redes sociais sem combinar com a gente antes.</div>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="badge">🧒</div>
+        <div class="r-body">
+          <div class="r-title">Crianças pequenas, com atenção redobrada</div>
+          <div class="r-text">Elas são amor puro, mas pegam e passam viroses com facilidade. Se vierem, que seja bem rapidinho e sem encostar na Sophie.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FECHAMENTO ============ -->
+  <section class="closing">
+    <p>Obrigado por cuidar da nossa pequena Padawan já no primeiro encontro. Vir com saúde, mãos limpas e o coração cheio é o presente que ela mais precisa agora. Mal podemos esperar pra apresentar a Sophie pra vocês.</p>
+    <div class="signature">Dayana, Luis e Laura</div>
+  </section>
+
+  <footer>Feito com amor para a chegada da Sophie.</footer>
+
+</div>
 
 <script>
-  (function () {
-    const c = document.getElementById('stars');
-    const n = window.innerWidth < 600 ? 18 : 32;
-    for (let i = 0; i < n; i++) {
+  function createStars() {
+    const container = document.getElementById('stars');
+    const count = window.innerWidth < 600 ? 22 : 40;
+    const sizes = ['', 'small', 'tiny'];
+    for (let i = 0; i < count; i++) {
       const s = document.createElement('div');
-      s.className = 'star' + (Math.random() < 0.5 ? ' tiny' : '');
-      s.style.top = (Math.random() * 100) + '%';
+      s.className = 'star ' + sizes[Math.floor(Math.random() * sizes.length)];
+      s.style.top  = (Math.random() * 100) + '%';
       s.style.left = (Math.random() * 100) + '%';
       s.style.animationDelay = (Math.random() * 4) + 's';
       s.style.animationDuration = (3 + Math.random() * 4) + 's';
-      c.appendChild(s);
+      container.appendChild(s);
     }
-  })();
+  }
+  createStars();
 </script>
 
 </body>
